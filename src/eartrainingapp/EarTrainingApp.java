@@ -5,6 +5,7 @@
  */
 package eartrainingapp;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,9 @@ public class EarTrainingApp{
      */
     private RandomNumberGenerator randomNumberGenerator;
     private NoteGenerator noteGenerator;
-    private Interval interval;
+    private Interval intervalOne;
+    private Interval intervalTwo;
+    private ArrayList<Interval> intervalList;
     private InstrumentRange instrument;
     private int tempo, trackEventTotal;
 
@@ -41,11 +44,15 @@ public class EarTrainingApp{
     private void play() throws MidiUnavailableException, InvalidMidiDataException {
         
         randomNumberGenerator = new RandomNumberGenerator();
-        interval = new ThirdInterval(randomNumberGenerator);
+        intervalOne = new SecondInterval(randomNumberGenerator);
+        intervalTwo = new SeventhInterval(randomNumberGenerator);
+        intervalList = new ArrayList<>();
+        intervalList.add(intervalOne);
+        intervalList.add(intervalTwo);
         instrument = InstrumentRange.GUITAR;
         tempo = 60;
         trackEventTotal = 40;       
-        noteGenerator = new NoteGenerator(instrument, interval, randomNumberGenerator);
+        noteGenerator = new NoteGenerator(instrument, intervalList, randomNumberGenerator);
 
         Sequence sequence = new Sequence(Sequence.PPQ, Constant.QUARTER_NOTE_VALUE);
         Track track = sequence.createTrack();

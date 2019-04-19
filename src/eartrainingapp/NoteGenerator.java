@@ -1,5 +1,6 @@
 package eartrainingapp;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -8,26 +9,27 @@ import java.util.Random;
  */
 public class NoteGenerator {
 
-    private RandomNumberGenerator randomNumber;
+    private RandomNumberGenerator randomNumberGenerator;
     private Interval interval;
+    private ArrayList<Interval> intervalList;
     private InstrumentRange instrumentRange;
 
-    public NoteGenerator(InstrumentRange instrumentRange, Interval interval, RandomNumberGenerator randomNumber) {
+    public NoteGenerator(InstrumentRange instrumentRange, ArrayList intervalList, RandomNumberGenerator randomNumberGenerator) {
 
         this.instrumentRange = instrumentRange;
-        this.interval = interval;
-        this.randomNumber = randomNumber;
+        this.intervalList = intervalList;
+        this.randomNumberGenerator = randomNumberGenerator;
 
     }
 
     public int generateNote(int previousNote) {
 
-        int upOrDown = randomNumber.getRandomNumber(2);
+        int upOrDown = randomNumberGenerator.getRandomNumber(2);
         int newNote = 0;
         boolean inRange = false;
 
         while (!inRange) {
-            newNote = interval.getInterval();
+            newNote = intervalList.get(randomNumberGenerator.getRandomNumber(intervalList.size())).getInterval();
             switch (upOrDown) {
                 case 0: // UP                   
                     newNote = previousNote + newNote;
