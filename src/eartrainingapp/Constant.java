@@ -14,5 +14,7 @@ public class Constant {
     static final int CHANNEL = 1;
     static final int VELOCITY = 100;
     static final int PROGRAM_CHANGE = 192;
+    static final int DEFAULT_BPM = 120;
+    static final int DEFAULT_LENGTH = 20;
 
 }
