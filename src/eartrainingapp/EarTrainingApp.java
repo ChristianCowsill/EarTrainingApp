@@ -15,8 +15,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -37,6 +36,7 @@ public class EarTrainingApp {
     private JTextArea bpmTextArea;
     private JTextArea sequenceLengthTextArea;
     private Sequencer sequencer;
+    private JComboBox instrumentComboBox;
 
     public EarTrainingApp() {
         randomNumberGenerator = new RandomNumberGenerator();
@@ -57,8 +57,9 @@ public class EarTrainingApp {
     private void play() throws MidiUnavailableException, InvalidMidiDataException {
 
         if (intervalList.size() > 0) {
-            instrument = InstrumentRange.GUITAR;
-
+            
+            instrument = InstrumentRange.valueOf(instrumentComboBox.getSelectedItem().toString());
+            
             if (!bpmTextArea.getText().equals("")) {
                 tempo = Integer.parseInt(bpmTextArea.getText());
             } else {
@@ -164,9 +165,17 @@ public class EarTrainingApp {
             bpmPanel.add(bpmTextArea);
             lengthPanel.add(lengthLabel);
             lengthPanel.add(sequenceLengthTextArea);
-
+            
+            ArrayList<String> instrumentRangeList = new ArrayList<>();
+            for(InstrumentRange instrument : InstrumentRange.values()){
+                instrumentRangeList.add(instrument.toString());
+            }
+            instrumentComboBox = new JComboBox(instrumentRangeList.toArray());
+            
             topPanel.add(bpmPanel);
             topPanel.add(lengthPanel);
+            topPanel.add(instrumentComboBox);
+            
 
             // Build Bottom Panel
             JPanel bottomPanel = new JPanel();
@@ -265,7 +274,7 @@ public class EarTrainingApp {
 
             frame.setVisible(true);
         }
-        
+                
         void removeInterval(ItemEvent e) {
 
             JCheckBox chkBox = (JCheckBox) e.getSource();
@@ -373,5 +382,4 @@ public class EarTrainingApp {
         }
 
     }
-
 }
